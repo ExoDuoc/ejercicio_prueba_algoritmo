@@ -1,0 +1,87 @@
+from datetime import datetime
+import numpy as np
+
+
+
+lista_asientos = [i for i in range(1,101)]
+lista_asientos_comprados = []
+cant=0
+ganancia_total=0
+
+def comprar_entradas():
+  while True:
+    try:
+      cant=int(input("Ingrese la cantidad de entradas a comprar: "))
+      if cant<1 or cant>3:
+        print("La compra de entradas debe ser entre 1 y 3.")
+      else:
+        return(cant)
+
+    except ValueError:
+      print("Error, favor ingrese nuevamente.")
+
+def asignar_asiento(num):
+  while num!=0:
+    try:
+      print(lista_asientos)
+      asiento=int(input("Ingrese el numero del asiento que desea: "))
+
+      if asiento in lista_asientos:
+        num-=1
+        rut=int(input("Ingrese su rut sin guion, puntos ni digito verificador: "))
+        lista_x=[asiento,rut]
+        lista_asientos_comprados.append(lista_x)
+        lista_asientos.pop(asiento-1)
+        lista_asientos.insert(asiento-1,"x")
+      elif asiento not in lista_asientos:
+          print("No está disponible.")
+    except ValueError:
+      print("Error, favor ingrese nuevamente.")
+
+  return(lista_asientos_comprados, lista_asientos)
+
+def ganancias_totales():
+  platinum=0
+  gold=0
+  silver=0
+
+  for i in lista_asientos_comprados:
+    num=i[0]
+    if num in range(1,20):
+      platinum+=120000
+    elif num in range(21,50):
+      gold+=80000
+    elif num in range(51,101):
+      silver+=50000
+
+
+  print(f"Las ganancias totales son {platinum+gold+silver}")
+
+while True:
+  try:
+    opcion=int(input("-----[CONCIERTO VIP MICHAEL JAM]-----\n1. Comprar entradas\n2. Mostrar ubicaciones disponibles\n3. Ver listado de asistentes\n4. Mostrar ganancias totales\n5. Salir\n\nEscoja la opción deseada: "))
+
+    if opcion==1:
+      asignar_asiento(comprar_entradas())
+
+    elif opcion==2:
+      print(lista_asientos)
+
+    elif opcion==3:
+      for f in range(1,101):
+        for i in lista_asientos_comprados:
+          if i[0] == f:
+            print(i[1])
+
+    elif opcion==4:
+      ganancias_totales()
+
+    elif opcion==5:
+      break
+
+  except ValueError:
+    print("Error, ingrese nuevamente.")
+
+fecha = datetime.now().date()
+
+print("Byron Gallardo",fecha)
